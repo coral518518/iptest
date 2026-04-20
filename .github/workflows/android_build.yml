@@ -59,6 +59,7 @@ jobs:
         run: |
           npm run build:release
         env:
+          NODE_OPTIONS: --openssl-legacy-provider
           APP_CENTER_SECRET: ${{ secrets.APP_CENTER_SECRET }}
           CODE_PUSH_DEPLOYMENT_KEY: ${{ secrets.CODE_PUSH_DEPLOYMENT_KEY }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
