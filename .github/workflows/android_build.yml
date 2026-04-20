@@ -37,6 +37,12 @@ jobs:
       - name: Install dependencies 
         run: npm ci 
 
+      - name: Create .env file
+        run: |
+          echo "CODE_PUSH_DEPLOYMENT_KEY=${{ secrets.CODE_PUSH_DEPLOYMENT_KEY }}" >> .env
+          echo "APP_CENTER_SECRET=${{ secrets.APP_CENTER_SECRET }}" >> .env
+          echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+
       # configure cash for gradle : will help to reduce build time
       - name: Cache Gradle Wrapper
         uses: actions/cache@v3
