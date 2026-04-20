@@ -25,7 +25,7 @@ const TestPage = observer(({ path, navigation, route }: { path: string, navigati
   const [pingUrl, setPingUrl] = useState<string>(userSettingsStore.userSetting.pingUrl);
   const [testUrl, setTestUrl] = useState<string>(
     // "http://cachefly.cachefly.net/200mb.test"
-    // "http://v2ray.xianshenglu.xyz"
+
     // "http://ip.flares.cloud/img/l.webp"
     `https://speed.cloudflare.com/__down?bytes=${10 * 1024 * 1024}`
   );

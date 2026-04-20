@@ -94,7 +94,7 @@ jobs:
       - name: Upload artifact to App Center
         uses: wzieba/AppCenter-Github-Action@v1
         with:
-          appName: xianshenglu/cloudflare-ip-tester-app
+          appName: coral518518/iptest
           token: ${{secrets.APP_CENTER_TOKEN}}
           group: Collaborators
           file: android/app/build/outputs/apk/release/app-universal-release-signed.apk
