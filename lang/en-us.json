@@ -1,0 +1,61 @@
+{
+  "general": {
+    "start": "START",
+
+    "ip": "IP",
+    "lossRate": "Loss Rate",
+    "respondTime": "Respond Time",
+    "downloadSpeed": "Download Speed",
+    "showAllData": "Show All Data",
+    "showSortedTop": "Show Sorted Top",
+    "getPermFailed": "Get Permissions Failed",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "reset": "Reset",
+    "generate": "GENERATE",
+    "save": "SAVE",
+    "action": "Action"
+  },
+  "testRun": {
+    "title": "Test Run",
+    "testRespond": "TEST RESPOND",
+    "testDownload": "TEST DOWNLOAD",
+    "ipCount": "ip count",
+    "coCurrentCount": "coCurrent count",
+    "testUrl": "test url",
+    "pingUrl": "ping url",
+    "startTest": "START TEST"
+  },
+  "testStatistics": {
+    "title": "Test Statistics",
+    "totalRespond": "Total Respond",
+    "respondSuccessRate": "Respond Suc Rate",
+    "meanRespondTime": "Mean Respond Time",
+    "totalDownload": "Total Download",
+    "downloadSuccessRate": "Download Suc Rate",
+    "meanDownload": "Mean Download",
+    "showAllColumns": "Show All Columns",
+    "hideSomeColumns": "Hide Some Columns"
+  },
+  "testConfig": {
+    "title": "Test Config",
+    "clearHistoryStatistics": "Clear history statistics",
+    "saveAllDataToDevice": "Save all data to device",
+    "customizeCfIpv4List": "Customize Cloudflare Ipv4 list"
+  },
+  "update": {
+    "title": "Update available",
+    "optionalUpdateMessage": "An update is available. Would you like to install it?",
+    "optionalInstallButtonLabel": "Install",
+    "optionalIgnoreButtonLabel ": "Ignore",
+    "downloadLatestVersion": "Download latest version",
+    "mandatoryUpdateMessage": "An update is available that must be installed.",
+    "mandatoryContinueButtonLabel": "Continue"
+  },
+  "savedIps": {
+    "title": "Saved",
+    "importToTest": "Import to Test",
+    "delete": "Delete",
+    "clear": "Clear"
+  }
+}
