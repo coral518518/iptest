@@ -22,10 +22,10 @@ jobs:
           fetch-depth: 0 # for changeLog
 
       - name: Set up our JDK environment # setup JDK environment: mandatory as we need to build  android project
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 8
+          java-version: 11
 
       - name: Set up our Node version
         uses: actions/setup-node@v3
