@@ -2,11 +2,11 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "34.0.0"
+        buildToolsVersion = "30.0.3"
         minSdkVersion = 21
         compileSdkVersion = 33
         targetSdkVersion = 33
-        kotlinVersion = "1.7.10"
+        kotlinVersion = "1.5.31"
     }
     repositories {
         google()
@@ -14,7 +14,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -27,10 +27,6 @@ allprojects {
     configurations.all {
         resolutionStrategy {
             force "com.facebook.react:react-native:" + REACT_NATIVE_VERSION
-            force "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-            force "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
-            force "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-            force "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
         }
     }
     repositories {
