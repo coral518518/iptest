@@ -70,6 +70,14 @@ jobs:
           CODE_PUSH_DEPLOYMENT_KEY: ${{ secrets.CODE_PUSH_DEPLOYMENT_KEY }}
           NODE_ENV: ${{ secrets.NODE_ENV }}
 
+      ## Detect installed build-tools version dynamically
+      - name: Setup build tool version variable
+        shell: bash
+        run: |
+          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          echo "BUILD_TOOLS_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
+          echo "Using build tools version: $BUILD_TOOL_VERSION"
+
       ## sign generated apk
       - name: Sign APK
         id: sign_app
@@ -80,7 +88,8 @@ jobs:
           alias: ${{ secrets.MYAPP_UPLOAD_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.MYAPP_UPLOAD_STORE_PASSWORD }}
           keyPassword: ${{ secrets.MYAPP_UPLOAD_KEY_PASSWORD }}
-          fileRegex: .*apk
+        env:
+          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
 
       - name: Upload artifact to App Center
         uses: wzieba/AppCenter-Github-Action@v1
