@@ -76,13 +76,17 @@ const checkConnectivity = async (ip: string, pingUrl: string) => {
       Referer: oldUrl.toString(),
       Origin: oldUrl.origin,
     };
-    await axios.request({
+    const response = await axios.request({
       url: newUrl.toString(),
       headers,
       timeout: 3000,
+      // 不让 axios 因非 2xx 状态码抛出异常，由我们自己判断
+      validateStatus: () => true,
     });
-    return true;
+    // 2xx 才视为连通成功（例如 gstatic.com/generate_204 返回 204）
+    return response.status >= 200 && response.status < 300;
   } catch (error) {
+    // 网络层错误（超时、连不上）
     return false;
   }
 };

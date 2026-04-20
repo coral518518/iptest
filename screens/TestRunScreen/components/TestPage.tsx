@@ -163,6 +163,8 @@ const TestPage = observer(({ path, navigation, route }: { path: string, navigati
           style={{ ...styles.input, flex: 1 }}
           onChangeText={(val) => setPingUrl(() => val)}
           value={pingUrl}
+          placeholder="留空=不筛选 | 填 https://www.gstatic.com/generate_204 可筛选能连Google的节点"
+          placeholderTextColor="#999"
         />
       </View>
 
