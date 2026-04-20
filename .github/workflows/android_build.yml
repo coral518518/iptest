@@ -7,7 +7,6 @@ on:
 
 jobs:
   android-build:
-    if: ${{ github.ref_name != 'main' }}
     name: Android Build
     runs-on: ubuntu-latest # using ubuntu latest version / or you can use a specific version
 
