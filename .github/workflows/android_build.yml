@@ -3,7 +3,11 @@ name: Android Build ## name of the workflow
 on:
   workflow_dispatch:
   push:
+    branches: [main, master]
   pull_request:
+
+permissions:
+  contents: write
 
 jobs:
   android-build:
@@ -91,21 +95,15 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOLS_VERSION }}
 
-      - name: Upload artifact to App Center
-        uses: wzieba/AppCenter-Github-Action@v1
+      ## Upload signed APKs to GitHub Releases
+      - name: Upload signed APKs to GitHub Release
+        uses: softprops/action-gh-release@v2
         with:
-          appName: coral518518/iptest
-          token: ${{secrets.APP_CENTER_TOKEN}}
-          group: Collaborators
-          file: android/app/build/outputs/apk/release/app-universal-release-signed.apk
-          notifyTesters: true
-          debug: false
-
-      - name: test
-        id: test
-        run: |
-          echo "${{ github.workspace }}/${{ fromJson(steps.sign_app.outputs.signedReleaseFiles)[0] }}"
-          echo "${{ github.workspace }}/${{ fromJson(steps.sign_app.outputs.signedReleaseFiles)[1] }}"
-          echo "${{ github.workspace }}/${{ fromJson(steps.sign_app.outputs.signedReleaseFiles)[2] }}"
-          echo "${{ github.workspace }}/${{ fromJson(steps.sign_app.outputs.signedReleaseFiles)[3] }}"
-          echo "${{ github.workspace }}/${{ fromJson(steps.sign_app.outputs.signedReleaseFiles)[4] }}"
+          tag_name: build-${{ github.run_number }}
+          name: "Build #${{ github.run_number }}"
+          body: "Automated build from commit ${{ github.sha }}"
+          files: android/app/build/outputs/apk/release/*-signed.apk
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
