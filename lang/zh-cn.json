@@ -1,7 +1,6 @@
 {
   "general": {
     "start": "开始",
-
     "ip": "IP",
     "lossRate": "丢包率",
     "respondTime": "响应时长",
@@ -12,7 +11,7 @@
     "cancel": "取消",
     "confirm": "确定",
     "reset": "重置",
-    "generate": "生成",
+    "generate": "生成IP",
     "save": "保存",
     "action": "操作"
   },
