@@ -20,6 +20,11 @@ jobs:
           distribution: 'zulu'
           java-version: 11
 
+      - name: Clean conflicting Android SDK components
+        run: |
+          rm -rf $ANDROID_SDK_ROOT/sdk-extensions
+          find $ANDROID_SDK_ROOT/platforms -maxdepth 1 -name "android-34*" -exec rm -rf {} +
+
       - name: Check Java Version
         run: java -version
 
