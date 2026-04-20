@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Switch } from "react-native";
 import { Text, TextInput, View } from "@/components/Themed";
 import { useEffect, useState } from "react";
 import { responseTestService } from "@/services/ResponseTest.service";
@@ -23,6 +23,8 @@ const TestPage = observer(({ path, navigation, route }: { path: string, navigati
   const { testIpCount, setTestIpCount, getIpList } = useTestIpCount();
   const [testIpCoCurrentCount, setTestIpCoCurrentCount] = useState<string>("5");
   const [pingUrl, setPingUrl] = useState<string>(userSettingsStore.userSetting.pingUrl);
+  // 是否启用 Google 可达检测（第二步筛选）
+  const [googleCheck, setGoogleCheck] = useState<boolean>(true);
   const [testUrl, setTestUrl] = useState<string>(
     // "http://cachefly.cachefly.net/200mb.test"
 
@@ -58,13 +60,15 @@ const TestPage = observer(({ path, navigation, route }: { path: string, navigati
       getSelectedIpList(),
       Number(testIpCoCurrentCount),
       testUrl,
-      pingUrl
+      pingUrl,
+      googleCheck
     );
     startDownloadSpeedTest(
       getSelectedIpList(),
       Number(testIpCoCurrentCount),
       testUrl,
-      pingUrl
+      pingUrl,
+      googleCheck
     );
   }
 
@@ -163,9 +167,22 @@ const TestPage = observer(({ path, navigation, route }: { path: string, navigati
           style={{ ...styles.input, flex: 1 }}
           onChangeText={(val) => setPingUrl(() => val)}
           value={pingUrl}
-          placeholder="留空=不筛选 | 填 https://www.gstatic.com/generate_204 可筛选能连Google的节点"
+          placeholder="留空=跳过基础检测"
           placeholderTextColor="#999"
         />
+      </View>
+      <View style={styles.toolbar}>
+        <Text>Google可达检测</Text>
+        <Switch
+          value={googleCheck}
+          onValueChange={(val) => setGoogleCheck(val)}
+          style={{ marginHorizontal: 8 }}
+        />
+        <Text style={{ color: googleCheck ? "#4caf50" : "#999", fontSize: 11 }}>
+          {googleCheck
+            ? "开启：仅保留能访问Google的节点"
+            : "关闭：不检测Google可达性"}
+        </Text>
       </View>
 
       <TableHeader

@@ -91,11 +91,19 @@ const checkConnectivity = async (ip: string, pingUrl: string) => {
   }
 };
 
-const getCfNodeResponseTestTime = async (ip: string, testUrl: string, pingUrl?: string) => {
+const GOOGLE_CHECK_URL = "https://www.gstatic.com/generate_204";
+
+const getCfNodeResponseTestTime = async (
+  ip: string,
+  testUrl: string,
+  pingUrl?: string,
+  googleCheck?: boolean
+) => {
   const result: CfIpResponse = getInitialCfIpResponse(ip, {
     respondTestStatus: RequestStatus.Pending,
   });
 
+  // Step 1: 基础连通检测
   if (pingUrl) {
     const isOk = await checkConnectivity(ip, pingUrl);
     if (!isOk) {
@@ -104,24 +112,38 @@ const getCfNodeResponseTestTime = async (ip: string, testUrl: string, pingUrl?: 
     }
   }
 
+  // Step 2: Google 可达检测
+  if (googleCheck) {
+    const canReachGoogle = await checkConnectivity(ip, GOOGLE_CHECK_URL);
+    if (!canReachGoogle) {
+      result.respondTestStatus = "ERROR";
+      return result;
+    }
+  }
+
+  // Step 3: 响应时长测试
   const startTime = Date.now();
   try {
     const response = await getCfResponseTestFile(ip, testUrl);
-
     result.respondTestStatus = "SUCCESS";
     result.respondTime = Date.now() - startTime;
   } catch (error) {
     console.log(error, "response error");
-
     result.respondTestStatus = "ERROR";
   }
   return result;
 };
-const getCfNodeDownloadTestTime = async (ip: string, testUrl: string, pingUrl?: string) => {
+const getCfNodeDownloadTestTime = async (
+  ip: string,
+  testUrl: string,
+  pingUrl?: string,
+  googleCheck?: boolean
+) => {
   const result: CfIpResponse = getInitialCfIpResponse(ip, {
     downloadSpeedTestStatus: RequestStatus.Pending,
   });
 
+  // Step 1: 基础连通检测
   if (pingUrl) {
     const isOk = await checkConnectivity(ip, pingUrl);
     if (!isOk) {
@@ -130,6 +152,16 @@ const getCfNodeDownloadTestTime = async (ip: string, testUrl: string, pingUrl?: 
     }
   }
 
+  // Step 2: Google 可达检测
+  if (googleCheck) {
+    const canReachGoogle = await checkConnectivity(ip, GOOGLE_CHECK_URL);
+    if (!canReachGoogle) {
+      result.downloadSpeedTestStatus = "ERROR";
+      return result;
+    }
+  }
+
+  // Step 3: 下载速度测试
   const startTime = Date.now();
   try {
     await getCfResponseTestFile(ip, testUrl);
@@ -149,13 +181,14 @@ export const getCfNodesResponseTestTime = (
   ipList: string[],
   coCurrentNum: number,
   testUrl: string,
-  pingUrl?: string
+  pingUrl?: string,
+  googleCheck?: boolean
 ) => {
   let totalCount = 4;
   return from(ipList).pipe(
     mergeMap((ip) => {
       return from(Array(totalCount).fill(ip)).pipe(
-        concatMap(() => getCfNodeResponseTestTime(ip, testUrl, pingUrl)),
+        concatMap(() => getCfNodeResponseTestTime(ip, testUrl, pingUrl, googleCheck)),
         bufferCount(totalCount),
         map((responseList) => {
           let successCount = 0;
@@ -187,11 +220,12 @@ export const getCfNodesDownloadTestTime = (
   ipList: string[],
   coCurrentNum: number,
   testUrl: string,
-  pingUrl?: string
+  pingUrl?: string,
+  googleCheck?: boolean
 ) => {
   return from(ipList).pipe(
     mergeMap((ip) => {
-      return getCfNodeDownloadTestTime(ip, testUrl, pingUrl);
+      return getCfNodeDownloadTestTime(ip, testUrl, pingUrl, googleCheck);
     }, coCurrentNum)
   );
 };

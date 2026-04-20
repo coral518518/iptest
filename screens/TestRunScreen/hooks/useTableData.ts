@@ -63,10 +63,11 @@ export function useTableData() {
     ipList: string[],
     coCurrentCount: number,
     testUrl: string,
-    pingUrl?: string
+    pingUrl?: string,
+    googleCheck?: boolean
   ): void {
     resetResponseSpeedTest();
-    getCfNodesResponseTestTime(ipList, coCurrentCount, testUrl, pingUrl)
+    getCfNodesResponseTestTime(ipList, coCurrentCount, testUrl, pingUrl, googleCheck)
       .pipe(takeUntil(responseTestService.start()))
       .subscribe((result) => {
         testStatisticsStore.addRecord(result);
@@ -90,10 +91,11 @@ export function useTableData() {
     ipList: string[],
     coCurrentCount: number,
     testUrl: string,
-    pingUrl?: string
+    pingUrl?: string,
+    googleCheck?: boolean
   ) {
     resetDownloadSpeedTest();
-    getCfNodesDownloadTestTime(ipList, coCurrentCount, testUrl, pingUrl)
+    getCfNodesDownloadTestTime(ipList, coCurrentCount, testUrl, pingUrl, googleCheck)
       .pipe(takeUntil(downloadTestService.start()))
       .subscribe((result) => {
         const index = tableData.findIndex((item) => item.ip === result.ip);
