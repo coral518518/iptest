@@ -12,7 +12,7 @@ class UserSettings {
     isSaveDataToDevice: false,
     defaultCfIpv4Text: CfIpV4Text,
     customizedCfIpv4Text: CfIpV4Text,
-    pingUrl: "https://www.gstatic.com/generate_204",
+    pingUrl: "",
   } as const;
   readonly userSetting: UserSetting = { ...this.defaultUserSetting };
   private storageSync: UserSettingsStorageSync;

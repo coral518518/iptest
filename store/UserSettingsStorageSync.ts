@@ -66,6 +66,10 @@ export class UserSettingsStorageSync implements StorageSync {
       ...deviceData,
       ...storageData,
     };
+    // 迁移：旧版默认 pingUrl 在国内无法访问，自动重置为空（禁用 ping 预检）
+    if ((targetSettings as any).pingUrl === "https://www.gstatic.com/generate_204") {
+      (targetSettings as any).pingUrl = "";
+    }
     if (!isFirst) {
       delete targetSettings.isSaveDataToDevice;
     }
