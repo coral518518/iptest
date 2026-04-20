@@ -20,6 +20,9 @@ jobs:
           distribution: 'zulu'
           java-version: 17
 
+      - name: Check Java Version
+        run: java -version
+
       - name: Set up our Node version
         uses: actions/setup-node@v3
         with:
