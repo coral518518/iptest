@@ -23,9 +23,8 @@ jobs:
       - name: Clean conflicting Android SDK components
         run: |
           rm -rf $ANDROID_SDK_ROOT/sdk-extensions
-          # 移除所有高于 API 33 的干扰组件 (34, 35 等)
-          find $ANDROID_SDK_ROOT/platforms -maxdepth 1 -name "android-34*" -exec rm -rf {} +
-          find $ANDROID_SDK_ROOT/platforms -maxdepth 1 -name "android-35*" -exec rm -rf {} +
+          # 动态移除所有高于 API 33 的干扰组件 (支持目前已出现的 34, 35, 36, 37 等)
+          ls -d $ANDROID_SDK_ROOT/platforms/android-* | grep -vE "android-(33|32|31|30|29|28|27|26|25|24|23|21)" | xargs rm -rf || true
 
       - name: Check Java Version
         run: java -version
